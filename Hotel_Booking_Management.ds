@@ -1,0 +1,1770 @@
+/*
+ * Author       : keerthana.v.2024.aiml_raj229
+ * Generated on : 21-Oct-2026 09:53:35
+ * Version      : 1.0
+ */
+ application "Hotel Booking Management"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "America/Los_Angeles"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form guest_booking
+		{
+			displayname = "Guest Booking"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			guest_name
+			(
+    			type = name
+				displayname = "Guest Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			guest_email
+			(
+    			type = email
+				displayname = "Guest Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			guest_phone
+			(
+    			type = phonenumber
+				displayname = "Guest Phone"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			room
+			(
+				type = picklist	
+				displayname = "Room"
+				values  = room_inventory.ID
+    			displayformat = [room_number]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			check_in_date
+			(
+    			type = date
+				displayname = "Check In Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			check_out_date
+			(
+    			type = date
+				displayname = "Check Out Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			booking_status
+			(
+				type = picklist
+				displayname = "Booking Status"
+				values = {"CheckedIn","Confirmed","Cancelled","CheckedOut"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			special_requests
+			(
+    			type = textarea
+				displayname = "Special Requests"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			total_amount
+			(
+				displayname = "Total Amount"
+				type = USD
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			booking_reference
+			(
+    			type = text
+				displayname = "Booking Reference"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			guest_notes
+			(
+    			type = textarea
+				displayname = "Guest Notes"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Booking Draft","Booking Confirmed","Booking Cancelled","Pre-Arrival","Booking Modified","Guest Checked In","Guest In Stay","Early Check Out","Guest Checked Out","Booking Completed"}
+			}
+		}
+		form room_inventory
+		{
+			displayname = "Room Inventory"
+			success message = "Room Inventory Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			room_number
+			(
+    			type = text
+				displayname = "Room Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			room_type
+			(
+				type = picklist
+				displayname = "Room Type"
+				values = {"Suite","Single","Double"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			price_per_night
+			(
+				displayname = "Price Per Night"
+				type = USD
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			status
+			(
+				type = radiobuttons
+				displayname = "Status"
+				values = {"Occupied","Available"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			floor
+			(
+				type = number
+				displayname = "Floor"
+				maxchar = 19
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			amenities
+			(
+				type = list	
+				displayname = "Amenities"
+				values = {"TV","Wi-Fi","Balcony","MiniBar","PoolAccess"}
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			max_occupancy
+			(
+				type = number
+				displayname = "Max Occupancy"
+				maxchar = 19
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			room_description
+			(
+    			type = textarea
+				displayname = "Room Description"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			maintenance_status
+			(
+				type = picklist
+				displayname = "Maintenance Status"
+				values = {"UnderMaintenance","Operational","OutofService"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			last_cleaned
+			(
+    			type = date
+				displayname = "Last Cleaned"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Room Created","Available for Booking","Under Maintenance","Out of Service","Booked","Checked In","Cancelled","Checked Out","Extended Stay","Pending Cleaning"}
+			}
+		}
+	}
+	reports
+	{
+		list guest_booking_Report
+		{
+			displayName = "Guest Booking Report"
+			show all rows from guest_booking    
+			(
+				guest_name  as "Guest Name"
+				guest_email as "Guest Email"
+				guest_phone as "Guest Phone"
+				room as "Room"
+				check_in_date as "Check In Date"
+				check_out_date as "Check Out Date"
+				booking_status as "Booking Status"
+				special_requests as "Special Requests"
+				total_amount as "Total Amount"
+				(
+					display = total,average,min,max	
+				)
+				booking_reference as "Booking Reference"
+				guest_notes as "Guest Notes"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (booking_status == "Cancelled")
+				fields = [booking_status]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (booking_status == "CheckedIn")
+				fields = [booking_status]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (booking_status == "CheckedOut")
+				fields = [booking_status]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban guest_booking_by_booking_status
+		{
+			displayName = "Booking Statuses"
+			show all rows from guest_booking    
+			(
+				guest_name  as "Guest Name"
+				guest_email as "Guest Email"
+				guest_phone as "Guest Phone"
+				room as "Room"
+				check_in_date as "Check In Date"
+				check_out_date as "Check Out Date"
+				booking_status as "Booking Status"
+				special_requests as "Special Requests"
+				total_amount as "Total Amount"
+				(
+					display = total,average,min,max	
+				)
+				booking_reference as "Booking Reference"
+				guest_notes as "Guest Notes"
+			)
+			options
+			(
+	 			display field = booking_status
+	 		)
+		}
+		list room_inventory_Report
+		{
+			displayName = "All Room Inventories"
+			show all rows from room_inventory    
+			(
+				room_number as "Room Number"
+				room_type as "Room Type"
+				price_per_night as "Price Per Night"
+				(
+					display = total,average,min,max	
+				)
+				status as "Status"
+				floor as "Floor"
+				amenities as "Amenities"
+				max_occupancy as "Max Occupancy"
+				room_description as "Room Description"
+				maintenance_status as "Maintenance Status"
+				last_cleaned as "Last Cleaned"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (room_type == "Double")
+				fields = [room_type]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (room_type == "Single")
+				fields = [room_type]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (room_type == "Suite")
+				fields = [room_type]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban room_inventory_by_room_type
+		{
+			displayName = "Room Types"
+			show all rows from room_inventory    
+			(
+				room_number as "Room Number"
+				room_type as "Room Type"
+				price_per_night as "Price Per Night"
+				(
+					display = total,average,min,max	
+				)
+				status as "Status"
+				floor as "Floor"
+				amenities as "Amenities"
+				max_occupancy as "Max Occupancy"
+				room_description as "Room Description"
+				maintenance_status as "Maintenance Status"
+				last_cleaned as "Last Cleaned"
+			)
+			options
+			(
+	 			display field = room_type
+	 		)
+		}
+	}
+	pages
+	{
+		page DashBoard
+		{
+			displayname = "Dashboard"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#F97164'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '64%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginTop = '8px'\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tdecimalPlaces = '2'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.guest_booking.total_amount.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '8px' \n\tmarginTop = '0px'\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Total Amounts'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '36%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#C75A50'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'business-percentage-39'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#EEA131'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tdecimalPlaces = '2'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.room_inventory.price_per_night.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Price Per Night'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#BE8127'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'media-1-volume-up'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#00CFA9'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.guest_booking.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Count of Guest Booking'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#0BA385'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'business-laptop-71'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='26%'\n   \t>\n\t<panel elementName='Panel 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#3E99DE'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.room_inventory.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Room Inventories'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#0E78C9'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'media-1-volume-up'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Grouped_Panel 1'\n \n\t\n\ttitle = 'Booking Status'\n\t\n\t\ttitleSize = '15px'\n            boldTitle = 'true'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#F97164'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-grid-50'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tcolor = '#C75A50'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'booking_status == &quot;CheckedIn&quot;'\n\t  value = 'thisapp.guest_booking.booking_status.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'CheckedIn'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#EEA131'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'shopping-award'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#BE8127'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'booking_status == &quot;Confirmed&quot;'\n\t  value = 'thisapp.guest_booking.booking_status.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Confirmed'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#00CFA9'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'travel-axe'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#0BA385'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'booking_status == &quot;Cancelled&quot;'\n\t  value = 'thisapp.guest_booking.booking_status.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Cancelled'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#3E99DE'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-grid-50'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#0E78C9'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'booking_status == &quot;CheckedOut&quot;'\n\t  value = 'thisapp.guest_booking.booking_status.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'CheckedOut'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel_Button 1'\n \n\t\n\ttitle = 'Quick Links'\n\t\n\t\ttitleSize = '15px'\n            boldTitle = 'true'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'guest_booking'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Guest Booking'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='27%'\n   \t>\n\t<panel elementName='Panel_Button 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'guest_booking_Report'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Show Guest Booking Report'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel_Button 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'room_inventory'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Room Inventory'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel_Button 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'room_inventory_Report'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Show All Room Inventories'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\t\n\ttitle = 'Booking Status by Total Amount'\n\t\n\t\ttitleSize = '16px'\n\ttype = 'Bar'\n\txtitle = 'Booking Status'\n\tytitle = 'Total Amount'\n\tbgColor = 'rgb(255, 255, 255)'\n\ttheme = '#f37d16'\n\tlegendPos = 'none'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'guest_booking'\n\txfield = 'booking_status'\n\tyfields = 'sum:total_amount'\n\tgroupBy = 'guest_name'\n\t\tDelugeCriteria = 'booking_status is not null &amp;&amp; booking_status != &quot;&quot;'\n/>\n\n</column><column\n   \t\t width='50%'\n   \t>\n\t<chart \n\telementName='Chart 2'\n\n\t\n\ttitle = 'Status by Floor'\n\t\n\t\ttitleSize = '16px'\n\ttype = 'Bar'\n\txtitle = 'Status'\n\tytitle = 'Floor'\n\tbgColor = 'rgb(255, 255, 255)'\n\ttheme = 'theme1'\n\tlegendPos = 'none'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'room_inventory'\n\txfield = 'status'\n\tyfields = 'sum:floor'\n\tgroupBy = 'room_number'\n\t\tDelugeCriteria = 'status is not null &amp;&amp; status != &quot;&quot;'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'guest_booking_Report'\n\t\n\t\tiszreport = 'false'\n\t\t\t\t\tzc_AddRec = 'false'\n\t\t\t\t\tzc_EditRec = 'false'\n\t\t\t\t\tzc_Print = 'false'\n\t\t\t\t\tzc_Export = 'false'\n\t\t\t\t\tzc_DelRec = 'false'\n\t\t\t\t\tzc_DuplRec = 'false'\n\t\t\t\t\tzc_Search = 'false'\n\t\t\t\t\tzc_EditBulkRec = 'false'\n\t\t\t\t\tzc_BulkDelete = 'false'\n\t\t\t\t\tzc_BulkDuplicate = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+		 functions
+		 {
+			 Deluge
+			 {
+				 float calculateStayCost(int nights, float price)
+                 {
+                 	return nights * price;
+                 }
+			 }
+		 }
+
+
+		workflow
+		{
+		form
+		{
+			auto_set_booking_reference as "Auto-Set Booking Reference"
+			{
+				type =  form
+				form = guest_booking
+
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Generate unique booking reference using current date, time, and user ID
+										if(isBlank(input.booking_reference))
+										{
+											// Get current date and time components
+											currentDate = zoho.currentdate;
+											currentTime = zoho.currenttime;
+											// Extract year, month, day, hour, minute from current date/time
+											year = currentDate.substring(0,4);
+											month = currentDate.substring(5,7);
+											day = currentDate.substring(8,10);
+											hour = currentTime.substring(11,13);
+											minute = currentTime.substring(14,16);
+											// Get logged in user ID for uniqueness
+											userId = zoho.loginuserid;
+											// Generate unique booking reference: YYYYMMDDHHMM-USERID
+											bookingRef = year.concat(month).concat(day).concat(hour).concat(minute).concat("-").concat(userId);
+											// Set the booking reference value
+											input.booking_reference = bookingRef;
+										}
+						)
+					}
+				}
+
+			}
+			validate_checkout_date as "Validate Check-out Date"
+			{
+				type =  form
+				form = guest_booking
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Validate that check-out date is not before check-in date
+										if(input.check_out_date != null && input.check_in_date != null)
+										{
+											if(input.check_out_date < input.check_in_date)
+											{
+												alert "Error: Check-out date cannot be before check-in date. Please correct the dates and try again.";
+												cancel submit;
+											}
+										}
+						)
+					}
+				}
+
+			}
+			send_confirmation_email as "Send Confirmation Email"
+			{
+				type =  form
+				form = guest_booking
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch guest email from input
+										if(input.guest_email.isNull())
+										{
+											info "Guest email is missing";
+										}
+										else
+										{
+											// Prepare booking details for email
+											bookingReference = input.booking_reference;
+											guestName = input.guest_name.first_name.concat(" ").concat(input.guest_name.last_name);
+											checkInDate = input.check_in_date.toString("dd-MMM-yyyy");
+											checkOutDate = input.check_out_date.toString("dd-MMM-yyyy");
+											roomNumber = input.room.room_number;
+											totalAmount = input.total_amount.toString();
+											// Construct email message
+											emailSubject = "Booking Confirmation - " + bookingReference;
+											emailMessage = "<p>Dear " + guestName + ",</p>";
+											emailMessage = emailMessage.concat("<p>Your booking has been successfully confirmed.</p>");
+											emailMessage = emailMessage.concat("<p><strong>Booking Reference:</strong> " + bookingReference + "</p>");
+											emailMessage = emailMessage.concat("<p><strong>Room:</strong> " + roomNumber + "</p>");
+											emailMessage = emailMessage.concat("<p><strong>Check-in Date:</strong> " + checkInDate + "</p>");
+											emailMessage = emailMessage.concat("<p><strong>Check-out Date:</strong> " + checkOutDate + "</p>");
+											emailMessage = emailMessage.concat("<p><strong>Total Amount:</strong> " + totalAmount + "</p>");
+											emailMessage = emailMessage.concat("<p>Thank you for choosing our hotel!</p>");
+											// Send confirmation email
+											sendmail
+											[
+												from :zoho.loginuserid
+												to :input.guest_email
+												subject :emailSubject
+												message :emailMessage
+												content type :HTML
+											]
+										}
+						)
+					}
+				}
+
+			}
+		}
+
+		schedule
+		{
+			daily_maintenance_alert as "Daily Maintenance Alert"
+			{
+				type =  schedule
+					status = inactive
+				start = "2024-05-26 15:53:12"
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						// Fetch rooms under maintenance from room_inventory form
+										roomsUnderMaintenance = room_inventory[maintenance_status == "UnderMaintenance"];
+										// Check if there are any rooms under maintenance
+										if(roomsUnderMaintenance.count() > 0)
+										{
+											// Build notification message
+											notificationMessage = "The following rooms are currently under maintenance:\n\n";
+											for each  room in roomsUnderMaintenance
+											{
+												roomNumber = room.room_number;
+												floor = room.floor;
+												notificationMessage = notificationMessage.concat(roomNumber).concat(" (Floor: ").concat(floor.toString()).concat(")\n");
+											}
+											// Send notification email to admin
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :zoho.adminuserid
+												subject :"Daily Room Maintenance Notification"
+												message :notificationMessage
+											]
+										}
+					)
+					}
+				}
+			}
+		}
+
+
+		blueprint
+		{
+    			room_availability_update as "Room Availability Update"
+    			{
+        			type = Blueprint
+        			form = room_inventory
+        			start
+        			{
+            			start stage = "Room Created"
+        			}
+        			stages
+        			{
+           			"Room Created"
+           			{
+           			}
+           			"Available for Booking"
+           			{
+           			}
+           			"Under Maintenance"
+           			{
+           			}
+           			"Out of Service"
+           			{
+           			}
+           			"Booked"
+           			{
+           			}
+           			"Checked In"
+           			{
+           			}
+           			"Cancelled"
+           			{
+           			}
+           			"Checked Out"
+           			{
+           			}
+           			"Extended Stay"
+           			{
+           			}
+           			"Pending Cleaning"
+           			{
+           			}
+        			}
+        			transitions
+        			{
+    				cancel_booking as "Cancel Booking"
+    				{
+         				type = normal
+         				from stage = "Booked"
+         				to stage = "Cancelled"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				complete_maintenance as "Complete Maintenance"
+    				{
+         				type = normal
+         				from stage = "Under Maintenance"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				confirm_booking as "Confirm Booking"
+    				{
+         				type = normal
+         				from stage = "Available for Booking"
+         				to stage = "Booked"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				confirm_cleaning as "Confirm Cleaning Complete"
+    				{
+         				type = normal
+         				from stage = "Pending Cleaning"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				emergency_maintenance as "Emergency Maintenance Request"
+    				{
+         				type = normal
+         				from stage = "Checked In"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				escalate_repair as "Escalate to Major Repair"
+    				{
+         				type = normal
+         				from stage = "Under Maintenance"
+         				to stage = "Out of Service"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				extend_stay as "Extend Stay"
+    				{
+         				type = normal
+         				from stage = "Checked In"
+         				to stage = "Extended Stay"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				flag_maintenance as "Flag for Maintenance"
+    				{
+         				type = normal
+         				from stage = "Room Created"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				flag_repairs as "Flag for Repairs"
+    				{
+         				type = normal
+         				from stage = "Checked Out"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				force_maintenance as "Force Maintenance Due to Issue"
+    				{
+         				type = normal
+         				from stage = "Booked"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				mark_cleaning as "Mark for Cleaning"
+    				{
+         				type = normal
+         				from stage = "Checked Out"
+         				to stage = "Pending Cleaning"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				mark_out_of_service as "Mark as Out of Service"
+    				{
+         				type = normal
+         				from stage = "Room Created"
+         				to stage = "Out of Service"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				needs_cleaning as "Maintenance Complete, Needs Cleaning"
+    				{
+         				type = normal
+         				from stage = "Under Maintenance"
+         				to stage = "Pending Cleaning"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				process_checkin as "Process Check-In"
+    				{
+         				type = normal
+         				from stage = "Booked"
+         				to stage = "Checked In"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				process_checkout as "Process Check-Out"
+    				{
+         				type = normal
+         				from stage = "Checked In"
+         				to stage = "Checked Out"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				re_evaluate_maintenance as "Re-evaluate Maintenance Needs"
+    				{
+         				type = normal
+         				from stage = "Out of Service"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				release_room as "Release Room"
+    				{
+         				type = normal
+         				from stage = "Cancelled"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				report_damage as "Report Damage During Cleaning"
+    				{
+         				type = normal
+         				from stage = "Pending Cleaning"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				restore_service as "Restore Room to Service"
+    				{
+         				type = normal
+         				from stage = "Out of Service"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				schedule_maintenance as "Schedule Maintenance"
+    				{
+         				type = normal
+         				from stage = "Available for Booking"
+         				to stage = "Under Maintenance"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				set_available as "Set Room to Available"
+    				{
+         				type = normal
+         				from stage = "Room Created"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				skip_cleaning as "Skip Cleaning (VIP/Immediate Rebook)"
+    				{
+         				type = normal
+         				from stage = "Checked Out"
+         				to stage = "Available for Booking"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+    				temporarily_close as "Temporarily Close Room"
+    				{
+         				type = normal
+         				from stage = "Available for Booking"
+         				to stage = "Out of Service"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+  				}
+        			}
+    			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Front Desk Agent"
+			{
+				name = "Front Desk Agent"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Manage guest check-ins and check-outs by updating booking statuses \n"
+				ModulePermissions
+				{
+					room_inventory
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							room_inventory_Report={"View"}
+							room_inventory_by_room_type={"View"}
+						}
+					}
+					guest_booking
+					{
+						enabled= Viewall,Modifyall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View","Edit","Delete"}
+							guest_booking_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Housekeeping Supervisor"
+			{
+				name = "Housekeeping Supervisor"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Update room cleaning records and maintenance statuses in the system \n"
+				ModulePermissions
+				{
+					room_inventory
+					{
+						enabled= Viewall,Modifyall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							room_inventory_Report={"View","Edit","Delete"}
+							room_inventory_by_room_type={"View","Edit","Delete"}
+						}
+					}
+					guest_booking
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View"}
+							guest_booking_Report={"View"}
+						}
+					}
+				}
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Inventory Administrator"
+			{
+				name = "Inventory Administrator"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Create and maintain the master list of rooms including types and amenities \n"
+				ModulePermissions
+				{
+					room_inventory
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							room_inventory_Report={"View","Edit","Delete"}
+							room_inventory_by_room_type={"View","Edit","Delete"}
+						}
+					}
+					guest_booking
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View"}
+							guest_booking_Report={"View"}
+						}
+					}
+				}
+			}
+			"Revenue Manager"
+			{
+				name = "Revenue Manager"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Analyze occupancy trends to adjust nightly prices dynamically \n"
+				ModulePermissions
+				{
+					room_inventory
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							room_inventory_Report={"View"}
+							room_inventory_by_room_type={"View"}
+						}
+					}
+					guest_booking
+					{
+						enabled= Viewall,Export 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View"}
+							guest_booking_Report={"View"}
+						}
+					}
+				}
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Travel Agent"
+			{
+				name = "Travel Agent"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Book multiple rooms for clients and manage group reservations \n"
+				ModulePermissions
+				{
+					room_inventory
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							room_inventory_Report={"View"}
+							room_inventory_by_room_type={"View"}
+						}
+					}
+					guest_booking
+					{
+						enabled= Viewall,Modifyall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View","Edit","Delete"}
+							guest_booking_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			"Guest"
+			{
+				name = "Guest"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Submit new reservations with specific check-in and check-out dates \n"
+				ModulePermissions
+				{
+					guest_booking
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							guest_booking_by_booking_status={"View"}
+							guest_booking_Report={"View"}
+						}
+					}
+				}
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+					"Receptionist"
+					{
+						description = "Front desk receptionist handling bookings"
+					}
+				}
+			}
+	}
+
+
+	web
+	{
+		forms
+		{
+			form guest_booking
+			{
+				label placement = left
+			}
+			form room_inventory
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report guest_booking_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								guest_name as "Guest Name"
+								guest_email as "Guest Email"
+								guest_phone as "Guest Phone"
+								room as "Room"
+								check_in_date as "Check In Date"
+								check_out_date as "Check Out Date"
+								booking_status as "Booking Status"
+								special_requests as "Special Requests"
+								total_amount as "Total Amount"
+								booking_reference as "Booking Reference"
+								guest_notes as "Guest Notes"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								guest_name as "Guest Name"
+								guest_email as "Guest Email"
+								guest_phone as "Guest Phone"
+								room as "Room"
+								check_in_date as "Check In Date"
+								check_out_date as "Check Out Date"
+								booking_status as "Booking Status"
+								special_requests as "Special Requests"
+								total_amount as "Total Amount"
+								booking_reference as "Booking Reference"
+								guest_notes as "Guest Notes"
+							)
+						)
+						datablock2
+						(
+		     				title = "Room"
+		     				related field = room
+							fields
+							(
+								room_number as "Room Number"
+								room_type as "Room Type"
+								price_per_night as "Price Per Night"
+								status as "Status"
+								floor as "Floor"
+								amenities as "Amenities"
+								max_occupancy as "Max Occupancy"
+								room_description as "Room Description"
+								maintenance_status as "Maintenance Status"
+								last_cleaned as "Last Cleaned"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report guest_booking_by_booking_status
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								guest_name as "Guest Name"
+								booking_reference as "Booking Reference"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								guest_name as "Guest Name"
+								guest_email as "Guest Email"
+								guest_phone as "Guest Phone"
+								room as "Room"
+								check_in_date as "Check In Date"
+								check_out_date as "Check Out Date"
+								booking_status as "Booking Status"
+								special_requests as "Special Requests"
+								total_amount as "Total Amount"
+								booking_reference as "Booking Reference"
+								guest_notes as "Guest Notes"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report room_inventory_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								room_number as "Room Number"
+								room_type as "Room Type"
+								price_per_night as "Price Per Night"
+								status as "Status"
+								floor as "Floor"
+								amenities as "Amenities"
+								max_occupancy as "Max Occupancy"
+								room_description as "Room Description"
+								maintenance_status as "Maintenance Status"
+								last_cleaned as "Last Cleaned"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								room_number as "Room Number"
+								room_type as "Room Type"
+								price_per_night as "Price Per Night"
+								status as "Status"
+								floor as "Floor"
+								amenities as "Amenities"
+								max_occupancy as "Max Occupancy"
+								room_description as "Room Description"
+								maintenance_status as "Maintenance Status"
+								last_cleaned as "Last Cleaned"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report room_inventory_by_room_type
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								room_number as "Room Number"
+								price_per_night as "Price Per Night"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								room_number as "Room Number"
+								room_type as "Room Type"
+								price_per_night as "Price Per Night"
+								status as "Status"
+								floor as "Floor"
+								amenities as "Amenities"
+								max_occupancy as "Max Occupancy"
+								room_description as "Room Description"
+								maintenance_status as "Maintenance Status"
+								last_cleaned as "Last Cleaned"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Section_1
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page DashBoard
+					{
+						icon = "ui-1-dashboard-half"
+					}
+				}
+				section Section_2
+				{
+					displayname = "Guest Booking"
+					icon = "media-1-ticket-75"
+					form  guest_booking
+					{
+						icon = "ui-1-bold-add"
+					}
+					report guest_booking_Report
+					{
+						icon = "business-laptop-71"
+					}
+					report guest_booking_by_booking_status
+					{
+						icon = "shopping-cash-register"
+					}
+				}
+				section Section_3
+				{
+					displayname = "Room Inventories"
+					icon = "furniture-table"
+					form  room_inventory
+					{
+						icon = "ui-1-bold-add"
+					}
+					report room_inventory_Report
+					{
+						icon = "media-1-volume-up"
+					}
+					report room_inventory_by_room_type
+					{
+						icon = "furniture-table"
+					}
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = solid
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			new theme = 6
+			font = "rubik"
+			color options
+			{
+				color = "3"
+			}
+			logo
+			{
+				preference = "none"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form guest_booking
+			{
+				label placement = auto
+			}
+			form room_inventory
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form guest_booking
+			{
+				label placement = auto
+			}
+			form room_inventory
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = lightred
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
